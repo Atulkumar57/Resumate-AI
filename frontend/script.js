@@ -688,10 +688,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // SEND REQUEST TO BACKEND
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/upload-resume", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://resumate-ai-backend-o4rp.onrender.com/upload-resume",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
 
       let data;
 
