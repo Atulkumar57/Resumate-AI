@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+backend/venv/
+.venv/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# System files
+.DS_Store
+
+# IDE settings
+.idea/
+
+# Uploaded resumes
+uploads/
