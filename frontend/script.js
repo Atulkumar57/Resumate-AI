@@ -189,6 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ==========================================
   // ERROR DISPLAY
+
   // ==========================================
 
   function showError(message) {
@@ -228,6 +229,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const atsIssues = safeArray(data.ats_issues);
     const qualityIssues = safeArray(data.quality_issues);
     const strengths = safeArray(data.resume_strengths);
+
+    const ai = data.ai_analysis || {};
+
+    const aiStrengths = safeArray(ai.strengths);
+    const aiSkillGaps = safeArray(ai.skill_gaps);
+    const aiSuggestions = safeArray(ai.improvement_suggestions);
 
     const atsChecks =
       data.ats_checks && typeof data.ats_checks === "object"
@@ -378,6 +385,41 @@ document.addEventListener("DOMContentLoaded", () => {
           )}
 
         </div>
+
+<!-- AI POWERED ANALYSIS -->
+<div class="results-section-heading">
+  <div>
+    <span class="panel-label">POWERED BY QWEN AI</span>
+    <h3>AI Resume Insights</h3>
+  </div>
+</div>
+
+<div class="results-panel ai-analysis-panel">
+  <div class="results-panel-heading">
+    <span class="panel-icon">✦</span>
+    <div>
+      <h3>Overall Assessment</h3>
+      <p>Personalized feedback from your AI resume analyzer</p>
+    </div>
+  </div>
+
+  <p>${escapeHTML(ai.overall_assessment || "AI assessment unavailable.")}</p>
+
+  <h3>AI-Detected Strengths</h3>
+  ${renderList(aiStrengths, "No AI strengths available.", "strength-item")}
+
+  <h3>Skill Gaps</h3>
+  ${renderList(aiSkillGaps, "No skill gaps identified.", "issue-item")}
+
+  <h3>Experience Match</h3>
+  <p>${escapeHTML(ai.experience_match || "No experience match assessment available.")}</p>
+
+  <h3>AI Improvement Suggestions</h3>
+  ${renderList(aiSuggestions, "No AI suggestions available.", "issue-item")}
+
+  <h3>Professional Resume Summary</h3>
+  <p>${escapeHTML(ai.resume_summary || "No summary available.")}</p>
+</div>
 
         <!-- ATS CHECKS AND STRENGTHS -->
 
@@ -688,13 +730,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // SEND REQUEST TO BACKEND
 
     try {
-      const response = await fetch(
-        "https://resumate-ai-backend-o4rp.onrender.com/upload-resume",
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      const response = await fetch("http://127.0.0.1:8000/upload-resume", {
+        method: "POST",
+        body: formData,
+      });
 
       let data;
 
